@@ -28,7 +28,7 @@ def compare_arrays(array1, array2, threshold=0.91):
     # Počet zhody v poliach
     matching_count = sum(1 for a, b in zip(array1, array2) if a == b)
     # Pomer zhody k celkovému počtu prvkov v poliach
-    match_ratio = matching_count / len(array1)    
+    match_ratio = matching_count / len(array1)        
     return match_ratio >= threshold
 
 def run_script():
@@ -54,14 +54,14 @@ def run_script():
     # Snímok obrazovky v okolí zadanej pozície myši
     screenshot = ImageGrab.grab(bbox=(center_x - area_width // 2, center_y - area_height // 2, center_x + area_width // 2, center_y + area_height // 2))    
     pixel_colors = list(screenshot.getdata())    
-    # Uložte snímok obrazovky do súboru
-    screenshot.save("screenshot.png")    
+        
     # Vytvorte nové pole hodnôt 0 a 1 na základe blízkosti farby k bielej farbe
-    binary_values = [1 if is_color_close_to_white(color) else 0 for color in pixel_colors]        
+    binary_values = [1 if is_color_close_to_white(color) else 0 for color in pixel_colors]  
+          
     # Porovnanie polí a výpis výsledku
-    if compare_arrays(binary_values, saved_binary_values):        
-        return("true")
-    else:        
+    if compare_arrays(binary_values, saved_binary_values):                
+        return("true")    
+    else:                
         return("false")
 
 # Premenná, ktorá označuje, či skript má bežať
@@ -83,7 +83,13 @@ while True:
     if script_running:
         category=run_script()
         if category=="true":
-                pass
+                # presunutie myši na zadanu poziciu
+                pyautogui.moveTo(center_x, center_y)                
+                # Držanie ľavého tlačítka myši
+                mouse_controller.press(Button.left)
+                time.sleep(0.3)
+                # Uvolnenie tlačítka myši
+                mouse_controller.release(Button.left)
         if keyboard.is_pressed('F8'):
             print("Script has been completed")
             break
